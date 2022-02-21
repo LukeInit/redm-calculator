@@ -1,223 +1,431 @@
-/*
-
-feature list
-------------------
-  
-  carton calc: will get ingrediants and costs needed to craft cartons
-  swamp joint calc: will get the ingrediants and costs needed to craft swamp joints.
-  moonshine cost calc : will get the ingrediants and costs needed to make moonshine.
-  tobacco crafting calc : takes tobacco amount and finds how many cartons you can make and how much rolling paper you will need.
-  gold calculator: tells you how much gold you can make and how much it costs.
-  gold something that klw wanted : will take the amount of gold bars and tell you how much you will need to buy the nuggets for
-  ore calculator tells how much profit will be made. // processor price = 7 | 5 needed per bar
-
-*/
-
-
 using namespace std;
 #include <iostream>
+#include <thread>
+#include <chrono>
 
-    int main()
+
+int main()
+{
+    // very cool important menu stuff
+    int menumain;
+    int menutobacco;
+    int menuswamp;
+    int menushine;
+    int menugold;
+    int menuore;
+
+    //default values for the calculations
+    int goldproccesorcost = 50;
+    float rollingpaper = 0.45;
+    float tobaccogrow = 0.15;
+    float cartonsellprice = 8.5;
+    int oreproccesorcost = 7;
+    int oreperbar = 5;
+    float water = 0.5;
+    int yeast = 2;
+
+    std::cout << R"(
+    ________      ___    ___      ________       ___ 
+   |\   __  \    |\  \  /  /|    |\   __  \     |\  \
+   \ \  \|\ /_   \ \  \/  / /    \ \  \|\  \    \ \  \
+    \ \   __  \   \ \    / /      \ \   _  _\ __ \ \  \
+     \ \  \|\  \   \/  /  /        \ \  \\  \|\  \\_\  \
+      \ \_______\__/  / /           \ \__\\ _\ \________\
+       \|_______|\___/ /             \|__|\|__\|________|
+                \|___|/                                                                                
+                         Version 1.2
+                          Loading...
+        )";
+    this_thread::sleep_for(chrono::milliseconds(2000));
+    system("cls");
+ 
+   do   
     {
-     int menuc;
-     do
-     {
+
+     std::cout <<" \n  0. Close program - Do not use on web version\n"<<"  1. Carton cost calculator\n"<<"  2. Swamp herb cost calculator \n" <<"  3. Moonshine cost calculator\n" 
+      <<"  4. Tobacco crafting calculator \n" <<"  5. Gold calculator\n" << "  6. Mining calculator\n"<< "  9. HELP!" << "\n\n  " ;
+      std::cin >> menumain;
 
 
-      std::cout <<"0. close program - do not use on web version\n"<<"1. carton cost calculator\n"<<"2. swamp herb cost calculator \n" <<"3. moonshine cost calculator\n" 
-      <<"4. tobacco crafting calculator \n" <<"5. Gold calculator\n" << "9. HELP!"<< "\n\n" ;
-      std::cin >> menuc;
-
-    switch(menuc)
+     switch(menumain)
        {
          case 0:
          {
-         std::cout << "quitting program \n \n";
+         std::cout << "\n  Quitting program\n";
           }
             break;
 
-         case 1:
-         {
 
-             std::cout << "input carton amount" << "\n \n";
-             int c;
-             std::cin >> c;
+            case 1:
+            {
+             std::cout << "\n  Input carton amount\n\n  ";
+             int carton;
+             std::cin >> carton;
 
-            std::cout << "Tobacco cost? | if grown put 0.15 \n \n";
-             float t1;
-            std::cin >> t1;
-
-            int tt = c * 6; // get carton amount times by 6 for tobacco amount
-            int ppt = c * 3; //get carton times times by 3 for paper amount
-
-            float tob = tt * t1; // price tob
-            float pp = ppt * 0.45; // price rolling paper 0.45 for riz cost
-            float total = tob + pp; // total cost of mats
-            float totalm = c * 8.50; // total sell price
-            float totalp = totalm - total; // total profit
+             std::cout << "\n  Did you 1. grow or 2. buy : 0 to go back \n\n  ";
+             std::cin >> menutobacco;
 
 
+             switch(menutobacco)
+             {
+                case 0:
+                {
+                     break;
+                }
 
-              std::cout <<"\nyou will need \n" <<  tt << " : $ " << tob  << 
-              " tobacco  \n" << ppt << " : $ " << pp << " rolling paper \n" 
-               << "total cost: $" << total << "\n" <<"total made from sale: $"
-             << totalm << "\n" << "total profit made: $" << totalp << "\n\n";
-      
-         }
-       
-          break;
+                case 1:
+                {
+                  // i could put it above but here looks nicer and i am lazy
+                  // getting values of the materials 
+                  int ctobacco = carton * 6; // get carton amount times by 6 for tobacco amount
+                  int cpaper = carton * 3; //get carton times times by 3 for paper amount
+                  // material prices
+                  float ptobacco = ctobacco * tobaccogrow; // price tob
+                  float ppaper = cpaper * rollingpaper ; // price of all paper
+                  // now for the epic money stuff
+                  float cartonmatcost = ptobacco + ppaper; // get the material cost
+                  float cartonsellamount = carton * cartonsellprice; // get the total sell amount
+                  float cartontotalprof = cartonsellamount - cartonmatcost; // get the total profit made
+
+               std::cout <<"\n  You will need \n\n  $" <<  ptobacco << " : " << ctobacco  <<  
+              "   Tobacco  \n  $" << ppaper << " : " << cpaper << "   Rolling paper \n" 
+               << "  Cost : $" << cartonmatcost << "\n" <<"  Sale : $"
+             << cartonsellamount << "\n" << "  Prof : $" << cartontotalprof << "\n\n";
+                }
+
+                break;
+
+                case 2:
+                {
+                    std::cout << "\n  How much did it cost?\n  ";
+                    float tobaccobuy;
+                    std::cin >> tobaccobuy;
+
+                  // getting values of the materials 
+                  int ctobacco = carton * 6; // get carton amount times by 6 for tobacco amount
+                  int cpaper = carton * 3; //get carton times times by 3 for paper amount
+                  // material prices
+                  float ptobacco = ctobacco * tobaccobuy; // price tob
+                  float ppaper = cpaper * rollingpaper ; // price of all paper
+                  // now for the epic money stuff
+                  float cartonmatcost = ptobacco + ppaper; // get the material cost
+                  float cartonsellamount = carton * cartonsellprice; // get the total sell amount
+                  float cartontotalprof = cartonsellamount - cartonmatcost; // get the total profit made
+
+               std::cout <<"\n  You will need \n\n  $" <<  ptobacco << " : " << ctobacco  <<  
+              "   Tobacco  \n  $" << ppaper << " : " << cpaper << "   Rolling paper \n" 
+               << "  Cost : $" << cartonmatcost << "\n" <<"  Sale : $"
+             << cartonsellamount << "\n" << "  Profit : $" << cartontotalprof << "\n\n";
+
+                }  
+                break;     
+             }
+             break; // keep these 2 here other wise it continues to swamp herb
 
             case 2:
             {
-            std::cout <<"input swamp joint amount" << "\n \n";
-            int swamp;
-            std::cin >> swamp;
 
-            std::cout << "Swamp herb cost? | if grown put $1 \n \n";
-            float swampg;
-            std::cin >> swampg;
+            std::cout << "\n  Input swamp joint amount\n\n  ";
+             int swampjoint;
+             std::cin >> swampjoint;
 
-            std::cout << "How much is swamp herb selling for? | average is $13 \n\n";
-            float swamps;
-            std::cin >> swamps;
+             std::cout << "\n  How much is swamp herb selling for? : average is $13 \n\n  ";
+             float swampsellprice;
+             std::cin >> swampsellprice;
 
-            int saramount =  swamp * 3; // gets the riz and swamp amount
-            float swampcost = saramount * swampg; //gets the cost of the swamp herb used
-            float rollingcost = saramount * 0.45; // gets the cost of the rolling paper
+             std::cout << "\n  Did you 1. grow or 2. buy : 0 to go back \n\n  ";
+             std::cin >> menuswamp;
 
-            float totalm2 = swampcost + rollingcost; // total mat cost
-            float total2 = swamps * swamp; // total total sell price of swamp herb as joints
-            float totalp2 = total2 - totalm2; //total profit
+             switch(menuswamp)
+              {
+                case 0:
+                {
+                    break;
+                }
 
-         std::cout << "\n" << "you will need \n" <<  saramount << " : $ " <<  swampcost << " swamp herb  \n"
-          << saramount << " : $ " << rollingcost << " rolling paper \n" 
-         << "total cost: $" << totalm2 << "\n" <<"total made from sale: $"
-        << total2 << "\n" << "total profit made: $" << totalp2 << "\n\n";
-              }
-            break;
+                 case 1:
+                 {
+                    int saramount = swampjoint * 3; //gets the amount of paper and swamp needed
+                  /* float swampcost = saramount * 1; //gets the cost of the swamp herb used */ //fuck knows why i did this use the saramount as the total cost of swamp
+                    float rollingcost = saramount * rollingpaper; // gets the cost of the rolling paper
 
-            case 3:
+                    float totalswampmats = saramount + rollingcost; // cost of all the mats
+                    float totalswampsale = swampjoint * swampsellprice; // total sale amount
+                    float totalswampprof = totalswampsale - totalswampmats; // total profit made from sale
+
+                    std::cout << "\n" << "  You will need\n\n  $" <<  saramount << " : " <<  saramount << " Swamp herb\n  $"
+                    << rollingcost << " : " << saramount << " Rolling paper \n" 
+                    << "  Cost : $" << totalswampmats << "\n" <<"  Sale : $"
+                    << totalswampsale << "\n" << "  Profit : $" << totalswampprof << "\n\n";       
+
+                 }
+                break;
+                case 2:
+                {
+
+                    std::cout << "  What price did u buy for? \n\n  ";
+                    float swampbuyprice;
+                    std::cin >> swampbuyprice;
+
+                    int saramount = swampjoint * 3; //gets the amount of paper and swamp needed
+                    float swampcost = saramount * swampbuyprice; //gets the cost of the swamp herb used 
+                    float rollingcost = saramount * rollingpaper; // gets the cost of the rolling paper
+
+                    float totalswampmats = swampcost + rollingcost; // cost of all the mats
+                    float totalswampsale = swampjoint * swampsellprice; // total sale amount
+                    float totalswampprof = totalswampsale - totalswampmats; // total profit made from sale
+
+                    std::cout << "\n" << "  You will need\n\n  $" <<  swampcost << " : " 
+                    <<  saramount << " Swamp herb\n  $"
+                    << rollingcost << " : " << saramount << " Rolling paper \n" 
+                    << "  Cost : $" << totalswampmats << "\n" <<"  Sale : $"
+                    << totalswampsale << "\n" << "  Profit : $" << totalswampprof << "\n\n";       
+
+
+                }
+                break;
+             }
+             break;
+
+             case 3:
             {
-
             //get moonshine amount
-            std::cout <<"input moonshine amount" << "\n \n";
-            int moons;
-            std::cin >> moons;
-
-            //get sugarcane price
-            std::cout << "cost of sugarcane? | put 0.19 if grown \n \n";
-            float csugar;
-            std::cin >> csugar;
+            std::cout <<"\n  Input moonshine amount" << "\n\n  ";
+            int moonshine;
+            std::cin >> moonshine;
 
             //moonshine sell price
-            std::cout << "moonshine sell price? | average is $13 \n\n";
+            std::cout << "\n  Moonshine sell price? | average is $15 \n\n  ";
             float moonsell;
             std::cin >> moonsell; 
 
             // only used for the cost per shine
-            std::cout << "how much mash did u make per batch? \n\n";
+            std::cout << "\n  How much mash did u make per batch? \n\n  ";
             int mash;
             std::cin >> mash;
 
-            // times sugar amount by 2 because 2 sugar
+            //get sugarcane price
+            std::cout << "\n  Did you 1. grow or 2. buy sugar? | 0 to go back to menu \n\n  ";
+            std::cin >> menushine;
+                switch(menushine)
+                {
+                 case 0:
+                {
+                    break;
+                }
+                    case 1:
+                    {
+                        float sugarprice = 0.19 * 2;
 
-            float sugar = csugar * 2;
+                        int finalshine = moonshine / mash; // get the amount of mashes needed
+                        float onemashcost = yeast + water + sugarprice; // gets the price of a single mash
+                        float allmash = onemashcost * finalshine; //gets price of all mash
+                        float finalcostofshine =  allmash / moonshine; // gets the price of the individual moonshine
+                        float finalshinesale =  moonsell * moonshine; //gets the total made from selling moonshine
+                        float shineprof = finalshinesale - allmash ; // gets the total profit made from selling 
 
-            int finalshine = moons / mash;
-            float onemashmatcost =  2 + 2.5 + sugar; 
-            float allmashcost = onemashmatcost * finalshine;
-            float finalcost = allmashcost / moons;
-            float finalshinesale = moonsell * moons;
-            float shineprof = finalshinesale - allmashcost ;
+                    std::cout 
+                    <<"\n  Amount of mashes: "<< finalshine <<"\n" 
+                    << "  Material cost of the mashes: $" << allmash << "\n" 
+                    << "  Individual moonshine cost: $" << finalcostofshine <<"\n"
+                   << "  Total amount made: $" << finalshinesale << "\n" 
+                   << "  Total profit made after sell: $" << shineprof << "\n\n" ;
 
-            std::cout <<"\namount of mashes: "<< finalshine <<"\n" << "material cost of the mashes: " << allmashcost << "\n" << "individual moonshine cost: " << finalcost <<"\n"
-            << "total amount made: " << finalshinesale << "\n" << "total profit made after sell: " << shineprof << "\n\n" ;
+                   }
+                   break;
 
-            }
+                   case 2:
+                   {
+
+                        std::cout << "\n  Price of the sugar?\n\n  ";
+                        float sugarbuyprice;
+                        std::cin >> sugarbuyprice;
+
+                        float sugarprice = sugarbuyprice * 2;
+
+                        int finalshine = moonshine / mash; // get the amount of mashes needed
+                        float onemashcost = yeast + water + sugarprice; // gets the price of a single mash
+                        float allmash = onemashcost * finalshine; //gets price of all mash
+                        float finalcostofshine =  allmash / moonshine; // gets the price of the individual moonshine
+                        float finalshinesale =  moonsell * moonshine; //gets the total made from selling moonshine
+                        float shineprof = finalshinesale - allmash ; // gets the total profit made from selling 
+
+                        std::cout 
+                       <<"\n  Amount of mashes: "<< finalshine <<"\n" 
+                       << "  Material cost of the mashes: $" << allmash << "\n" 
+                       << "  Individual moonshine cost: $" << finalcostofshine <<"\n"
+                       << "  Total amount made: $" << finalshinesale << "\n" 
+                       << "  Total profit made after sell: $" << shineprof << "\n\n" ;
+
+                   }
+                   
+                }
+            } break;
             break;
 
-            case 4:
+         case 4:
             {
-            std::cout << "enter tobacco amount" << "\n\n";
+             std::cout << "\n  Enter tobacco amount" << "\n\n  ";
              int tobacco;
              std::cin >> tobacco;
        
              int carton = tobacco / 6;
              int paper = tobacco / 2;
-             float paperc = paper * 0.45;
-             float cartonp = carton * 8.5;
+             float paperc = paper * rollingpaper;
+             float cartonp = carton * cartonsellprice;
 
-             std::cout << "\nyou will need \n" <<  paper << " rolling paper | cost: $" << paperc << "\n" << "You can make " << carton << " cartons | $"  << cartonp << "\n\n" ;
-
+             std::cout << "\n  You will need \n  "
+              << paper << " Rolling paper : cost: $"
+             << paperc << "\n" << "  You can make " 
+             << carton << " Cartons : $"  
+             << cartonp << "\n\n" ;
 
             }
+
             break;
 
             case 5:
+
             {
 
-              std::cout << "input gold amount | anything under 100 wont work"<< "\n\n";
-              int golda;
-              std::cin >> golda;
+             std::cout << "\n  Gold nugget amount | anything under 100 wont work\n\n  ";   
+             int goldamount;
+             std::cin >> goldamount;
 
-              std::cout << "how much did u buy for? | put 0 if panned"<< "\n\n";
-              float goldp;
-              std::cin >> goldp;
+             std::cout << "\n  Gold sell price?\n\n  ";
+             float goldsellprice;
+             std::cin >> goldsellprice;
 
-              std::cout << "gold bar price | 200 is about average no api to grab from :("<< "\n\n";
-              float goldb;
-              std::cin >> goldb;
+              std::cout << "\n  Did you 1. pan or 2. buy | 0 to go back to menu"<< "\n\n  ";
+              std::cin >> menugold; 
+                switch(menugold)
+                {
+                    case 0:
+                {
+                    break;
 
-              float goldap = golda * goldp; // get cost of gold nugs
-              float goldproc = 50; // processing cost
-              int goldpa = golda / 100; // divides the nuggets by 100 to get the gold bar amount
-              int goldpra = golda / 200; // divides by 200 because because max inv space for full bar
-              int agolds = goldpa * goldb; // get total cost of made
-              int totalpro = goldproc * goldpra; // gets total process cost
-              float totalfa = totalpro + goldap; // gets total cost of mats
-              float totalmadeg = agolds - totalfa; // gets total profit
+                }
+                    case 1:
+                    {
 
-              std::cout << "\nyou will need to do: " << goldpra <<" trips to the processor\n" 
-              <<"you will get: " << goldpa <<" gold bars\n"  
-              << "you will spend: " << totalpro << " on processing \n" 
-              <<"your total spend is: " << totalfa 
-              << "\ntotal money made is: " << agolds  
-              <<"\nyour total profit is: " << totalmadeg << "\n\n";
+                        float goldbaramount = goldamount / 100; //gets amount of bars smeltable and process
+                        int totalgoldmade = goldbaramount * goldsellprice; // total amount of money made from selling gold
+                        int totalgoldprocessing = goldproccesorcost * goldbaramount; // gets the total processing cost
+                        /*  float totalmatgoldcost =  totalgoldprocessing + 0 ; */ // dont need this smh
+                        float totalgoldprofit = totalgoldmade - totalgoldprocessing; // gets the total profit made.
+
+
+                        std::cout << "\n  You will need to do: " << goldbaramount << " processes\n"
+                         <<"  You will get: " << goldbaramount <<" gold bars\n"  
+                         << "  You will spend: " << totalgoldprocessing << " on processing \n" 
+                         <<"  Your total spend is: " << totalgoldprocessing 
+                         << "\n  Total money made is: " << totalgoldmade  
+                         <<"\n  Your total profit is: " << totalgoldprofit << "\n\n";
+
+                }   
+                break;
+
+                case 2:
+                {
+                    std::cout << "\n  How much did u buy for? \n\n";
+                    float goldbuyprice;
+                    std::cin >> goldbuyprice;
+
+                        float goldnuggettotalcost = goldamount * goldbuyprice; // gets the price of all nugz
+                        float goldbaramount = goldamount / 100; //gets amount of bars smeltable
+                        int totalgoldmade = goldbaramount * goldsellprice; // total amount of money made from selling gold
+                        int totalgoldprocessing = goldproccesorcost * goldbaramount; // gets the total processing cost
+                        float totalmatgoldcost =  totalgoldprocessing + goldnuggettotalcost ; // total mat cost
+                        float totalgoldprofit = totalgoldmade - totalgoldprocessing; // gets the total profit made.
+
+                        std::cout << "\n  You will need to do: " << goldbaramount << " processes \n"
+                         <<"  You will get: " << goldbaramount <<" gold bars\n"  
+                         << "  You will spend: " << totalgoldprocessing << " on processing \n" 
+                         <<"  Your total spend is: " << totalgoldprocessing 
+                         << "\n  Total money made is: " << totalgoldmade  
+                         <<"\n  Your total profit is: " << totalgoldprofit << "\n\n";
+                }
+                break;
+              }
+              break;
+
+              case 6:
+              {
+
+                  std::cout << "\n  Amount of ore?\n\n  ";
+                  int oreamount;
+                  std::cin >> oreamount;
+            
+                  std::cout << "\n  Sell price of ore?\n\n  ";
+                  int oresell;
+                  std::cin >> oresell;
+
+                  std::cout << "\n  Did you 1. mine or 2. buy\n\n  ";
+                  std::cin >> menuore;
+                  switch(menuore)
+                  {
+
+                    case 1:
+                    {
+
+                        float orebaramount = oreamount / 5; //gets amount of bars 
+                        int totalbarsmade = orebaramount * oresell; // total amount of money made from selling the bars
+                        int totalbarprocessing = oreproccesorcost * orebaramount; // gets the total processing cost
+                        float totaloreprofit = totalbarsmade - totalbarprocessing; // gets the total profit made.
+
+                         std::cout << "\n  You will need to do: " << orebaramount << " processes\n"
+                         <<"  You will get: " << orebaramount <<" bars\n"  
+                         << "  You will spend: $" << totalbarprocessing << " on processing \n" 
+                         <<"  Your total spend is: $" << totalbarprocessing 
+                         << "\n  Total money made is: $" << totalbarsmade  
+                         <<"\n  Your total profit is: $" << totaloreprofit << "\n\n";
+
+                     }
+                    break;
+
+                    case 2:
+                    {
+
+                        std::cout << "\nhow much did you buy for?\n\n";
+                        int orebuy;
+                        std::cin >> orebuy;
+
+                        float orebaramount = oreamount / 5; //gets amount of bars 
+                        int totalbarsmade = orebaramount * oresell; // total amount of money made from selling the bars
+                        float totalorebuy = orebuy * oreamount; // gets the total cost of all the ore
+                        int totalbarprocessing = oreproccesorcost * orebaramount; // gets the total processing cost
+                        float totalproductioncost = totalbarprocessing + totalorebuy; // gets the total cost of all the processes
+                        float totaloreprofit = totalbarsmade - totalproductioncost; // gets the total profit made.
+
+                         std::cout << "\n  You will need to do: " << orebaramount << " processes\n"
+                         <<"  You will get: " << orebaramount <<" bars\n"  
+                         << "  You will spend: $" << totalbarprocessing << " on processing \n" 
+                         <<"  Your total spend is: $" << totalproductioncost 
+                         << "\n  Total money made is: $" << totalbarsmade  
+                         <<"\n  Your total profit is: $" << totaloreprofit << "\n\n";
+                    }
+                    break;
+                  }
+
+                  break;
+              }
+
+
+         case 9:
+          {
+
+            std::cout << "\n  Carton calc: will get ingrediants and costs needed to craft cartons. \n" <<
+            "  Swamp calc: will get the ingrediants and costs needed to craft swamp joints.\n"<<
+            "  Moonshine calc : will get the ingrediants and costs needed to make moonshine.\n"<<
+           "  Tobacco calc : takes tobacco amount and finds how many cartons you can make and how much rolling paper you will need.\n" <<
+           "  Gold calculator: tells you how much gold you can make and how much it costs. \n\n";
+
             }
-          break;
-
-          case 6:
-          {
-          
-          std::cout << "amount of ore?\n\n";
-          int oreamount;
-          std::cin >> oreamount;
-            
-          std::cout << "sell price of ore?";
-          int oresell;
-          std::cin >> oresell;
-
-          
-            
-            
+            break;
+            }
           }
-
-          case 9:
-          {
-
-            std::cout << "\ncarton calc: will get ingrediants and costs needed to craft cartons. \n" <<
-            "swamp calc: will get the ingrediants and costs needed to craft swamp joints.\n"<<
-            "moonshine calc : will get the ingrediants and costs needed to make moonshine.\n"<<
-           "tobacco calc : takes tobacco amount and finds how many cartons you can make and how much rolling paper you will need.\n" <<
-           "gold calculator: tells you how much gold you can make and how much it costs. \n\n";
-
-          }
-          break;
-
-         }
-       }
-       while(menuc != 0);
+        }
       }
-
-
-
+    } 
+     while(menumain != 0);
+}
