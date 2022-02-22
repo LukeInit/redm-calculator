@@ -1,7 +1,7 @@
 using namespace std;
 #include <iostream>
 #include <thread>
-#include <chrono>
+#include <cmath>
 
 
 int main()
@@ -20,7 +20,7 @@ int main()
     float tobaccogrow = 0.15;
     float cartonsellprice = 8.5;
     int oreproccesorcost = 7;
-    int oreperbar = 5;
+    int oreperbar = 4;
     float water = 0.5;
     int yeast = 2;
 
@@ -42,8 +42,8 @@ int main()
    do   
     {
 
-     std::cout <<" \n  0. Close program - Do not use on web version\n"<<"  1. Carton cost calculator\n"<<"  2. Swamp herb cost calculator \n" <<"  3. Moonshine cost calculator\n" 
-      <<"  4. Tobacco crafting calculator \n" <<"  5. Gold calculator\n" << "  6. Mining calculator\n"<< "  9. HELP!" << "\n\n  " ;
+     std::cout <<" \n  0. Close program - Do not use on web version\n"<<"  1. Carton cost calculator\n"<<"  2. Swamp herb cost calculator\n" <<"  3. Moonshine cost calculator\n" 
+      <<"  4. Tobacco crafting calculator \n" <<"  5. Gold calculator\n" << "  6. Mining calculator\n" << "  7. Gold nugget buy calculator\n" << "  9. HELP!" << "\n\n  " ;
       std::cin >> menumain;
 
 
@@ -51,7 +51,8 @@ int main()
        {
          case 0:
          {
-         std::cout << "\n  Quitting program\n";
+         std::cout << "\n  Quitting program\n  ";
+         this_thread::sleep_for(chrono::milliseconds(2000));
           }
             break;
 
@@ -97,7 +98,7 @@ int main()
 
                 case 2:
                 {
-                    std::cout << "\n  How much did it cost?\n  ";
+                    std::cout << "\n  How much did it cost?\n\n  ";
                     float tobaccobuy;
                     std::cin >> tobaccobuy;
 
@@ -163,7 +164,7 @@ int main()
                 case 2:
                 {
 
-                    std::cout << "  What price did u buy for? \n\n  ";
+                    std::cout << "\n  What price did u buy for? \n\n  ";
                     float swampbuyprice;
                     std::cin >> swampbuyprice;
 
@@ -367,13 +368,13 @@ int main()
 
                     case 1:
                     {
-
+                        int totalfullinv = oreamount / 60 ;
                         float orebaramount = oreamount / 5; //gets amount of bars 
                         int totalbarsmade = orebaramount * oresell; // total amount of money made from selling the bars
                         int totalbarprocessing = oreproccesorcost * orebaramount; // gets the total processing cost
                         float totaloreprofit = totalbarsmade - totalbarprocessing; // gets the total profit made.
 
-                         std::cout << "\n  You will need to do: " << orebaramount << " processes\n"
+                         std::cout << "\n  You will need to do: " << totalfullinv << " full inventory's\n"
                          <<"  You will get: " << orebaramount <<" bars\n"  
                          << "  You will spend: $" << totalbarprocessing << " on processing \n" 
                          <<"  Your total spend is: $" << totalbarprocessing 
@@ -386,10 +387,11 @@ int main()
                     case 2:
                     {
 
-                        std::cout << "\nhow much did you buy for?\n\n";
+                        std::cout << "\n  how much did you buy for?\n\n  ";
                         int orebuy;
                         std::cin >> orebuy;
 
+                        int totalfullinv = oreamount / 60 ; // gets the amount per inv
                         float orebaramount = oreamount / 5; //gets amount of bars 
                         int totalbarsmade = orebaramount * oresell; // total amount of money made from selling the bars
                         float totalorebuy = orebuy * oreamount; // gets the total cost of all the ore
@@ -397,7 +399,7 @@ int main()
                         float totalproductioncost = totalbarprocessing + totalorebuy; // gets the total cost of all the processes
                         float totaloreprofit = totalbarsmade - totalproductioncost; // gets the total profit made.
 
-                         std::cout << "\n  You will need to do: " << orebaramount << " processes\n"
+                         std::cout << "\n  You will need to do: " << totalfullinv << " full inventory's\n"
                          <<"  You will get: " << orebaramount <<" bars\n"  
                          << "  You will spend: $" << totalbarprocessing << " on processing \n" 
                          <<"  Your total spend is: $" << totalproductioncost 
@@ -410,6 +412,43 @@ int main()
                   break;
               }
 
+
+              case 7:
+              {
+
+                std::cout << "\n  How much profit per bar\n\n  ";
+                int gbarprof;
+                std::cin >> gbarprof;
+
+                std::cout << "\n  Price per bar?\n\n  ";
+                int gbarprice;
+                std::cin >> gbarprice;
+
+                std::cout << "\n  Amount of bars?\n\n  ";
+                int gbaramount;
+                std::cin >> gbaramount;
+
+                        float totalgbarprocessing = gbaramount * goldproccesorcost; // gets the total processing cost
+                        float totalgbarpreprofit = gbarprof * gbaramount; // gets the total profitmade
+                        float totalgsellprice = gbarprice * gbaramount; // the actual total made
+                        float totalmatcost = gbarprof + goldproccesorcost; // gets the total cost to make a bar
+                        float totalgbarmakecost = totalmatcost * gbaramount; // total cost of all bars
+                        float totalgbarsellprice = gbarprice - totalgbarmakecost; // the sell price after process for 1 bar
+                        float importantsell = gbarprice - goldproccesorcost - gbarprof; // gets the actual costs
+                        float totalpernugget = importantsell / 100 ; // gets the sell price per nuggets
+                        float totalprofitmade = gbarprof * gbaramount; // profit
+                    
+
+
+
+
+                         std::cout <<"\n  Max gold nugget buy price: $" << totalpernugget <<"\n"   
+                         <<"  Your total spend is: $" << totalgbarprocessing 
+                         << "\n  Total money made is: $" << totalgsellprice  
+                         <<"\n  Your total profit is: $" << totalprofitmade << "\n\n";
+                    }
+
+              break;
 
          case 9:
           {
